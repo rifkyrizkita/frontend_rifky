@@ -73,7 +73,10 @@ export const AttendanceTable = () => {
     ];
     return months[monthNumber - 1];
   };
-
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "short", day: "2-digit" };
+    return new Date(dateString).toLocaleDateString("en-US", options);
+  };
   return token ? (
     <Box>
       <Navbar />
@@ -115,7 +118,7 @@ export const AttendanceTable = () => {
           <Tbody>
             {filteredAttendance.map((record) => (
               <Tr key={record.id}>
-                <Td>{record.clockedIn.substring(0, 10)}</Td>
+                <Td>{formatDate(record.clockedIn.substring(0, 10))}</Td>
                 <Td>{record.clockedIn.substring(11, 19)}</Td>
                 {record.clockedOut ? (
                   <Td>{record.clockedOut.substring(11, 19)}</Td>

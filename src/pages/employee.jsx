@@ -23,7 +23,7 @@ import {
   HStack,
   Switch,
 } from "@chakra-ui/react";
-import { AddIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"; // Import icons
+import { AddIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons";
 import Axios from "axios";
 import { AddEmployeePage } from "../components/addEmployee";
 import { Navbar } from "../components/navbar";
@@ -33,12 +33,12 @@ import { useSelector } from "react-redux";
 export const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [totalPage, setTotalPage] = useState(1); 
+  const [totalPage, setTotalPage] = useState(1);
   const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("asc"); 
+  const [sort, setSort] = useState("asc");
   const [page, setPage] = useState(1);
-const token = localStorage.getItem("token")
-const data = useSelector((state) => state.employee.value);
+  const token = localStorage.getItem("token");
+  const data = useSelector((state) => state.employee.value);
 
   const fetchEmployees = async () => {
     try {
@@ -74,7 +74,12 @@ const data = useSelector((state) => state.employee.value);
     setPage(newPage);
   };
 
-  return token && data.isAdmin? (
+  const formatDate = (dateString) => {
+    const options = {  year: "numeric", month: "short", day: "2-digit" };
+    return new Date(dateString).toLocaleDateString("en-US", options);
+  };
+
+  return token && data.isAdmin ? (
     <Box>
       <Box>
         <Navbar />
@@ -115,6 +120,7 @@ const data = useSelector((state) => state.employee.value);
               <Th>Phone Number</Th>
               <Th>Birth Date</Th>
               <Th>Address</Th>
+              <Th>Join Date</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -123,8 +129,9 @@ const data = useSelector((state) => state.employee.value);
                 <Td>{employee.fullName}</Td>
                 <Td>{employee.email}</Td>
                 <Td>{employee.phoneNumber}</Td>
-                <Td>{employee.birthDate}</Td>
+                <Td>{formatDate(employee.birthDate)}</Td>
                 <Td>{employee.address}</Td>
+                <Td>{formatDate(employee.createdAt)}</Td>
               </Tr>
             ))}
           </Tbody>
@@ -158,5 +165,7 @@ const data = useSelector((state) => state.employee.value);
         </ModalContent>
       </Modal>
     </Box>
-  ):(<Navigate to="/"/>);
+  ) : (
+    <Navigate to="/" />
+  );
 };
