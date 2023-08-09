@@ -19,7 +19,7 @@ export const Salary = () => {
   ];
 
   const [salaryData, setSalaryData] = useState([]);
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); // Default to current year
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear()); 
 
   const token = localStorage.getItem("token");
 
@@ -75,7 +75,6 @@ export const Salary = () => {
         Yearly Salary Report
       </Text>
       <Select value={selectedYear} onChange={handleYearChange} mb={4}>
-        {/* Generate options for years, you can adjust the range as needed */}
         {Array.from({ length: 10 }, (_, i) => new Date().getFullYear() - i).map((year) => (
           <option key={year} value={year}>
             {year}

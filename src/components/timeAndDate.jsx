@@ -56,7 +56,7 @@ export const TND = () => {
         {},
         { headers }
       );
-
+      window.location.reload();
       if (!clockedIn) {
         setClockIn(formattedTime);
         setClockedIn(true);
@@ -90,7 +90,7 @@ export const TND = () => {
         {},
         { headers }
       );
-
+      window.location.reload();
       if (!clockedOut) {
         setClockOut(formattedTime);
         setClockedOut(true);

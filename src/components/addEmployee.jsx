@@ -6,6 +6,7 @@ import {
   Input,
   Button,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -13,6 +14,7 @@ import Axios from "axios";
 
 export const AddEmployeePage = () => {
   const token = localStorage.getItem("token");
+  const toast = useToast()
   const headers = {
     Authorization: `Bearer ${token}`,
   };
@@ -29,8 +31,24 @@ export const AddEmployeePage = () => {
         data, {headers}
       );
       console.log(response);
+      toast({
+        title: "Success",
+        description: response.data.message,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Error",
+        description: error.response.data.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
     }
   };
 

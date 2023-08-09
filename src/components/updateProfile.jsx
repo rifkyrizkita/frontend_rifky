@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-import { Button, FormControl, FormLabel, Input, Box } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Input, Box, useToast } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const UpdateProfile = () => {
   const data = useSelector((state) => state.employee.value);
+  const navigate = useNavigate()
+  const toast = useToast()
   const [isEditing, setIsEditing] = useState(false);
   const token = localStorage.getItem("token");
   const headers = {
@@ -20,10 +23,27 @@ export const UpdateProfile = () => {
         { headers }
       );
       console.log(response);
-
+localStorage.removeItem("token")
+navigate("/login")
       setIsEditing(false);
+      toast({
+        title: "Success",
+        description: response.data.message,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Error",
+        description: error.response.data.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
     }
   };
   const UpdateProfileSchema = Yup.object().shape({

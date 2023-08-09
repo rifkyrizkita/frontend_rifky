@@ -35,6 +35,7 @@ function App() {
       console.log(response.data);
     } catch (error) {
       console.log(error);
+      localStorage.removeItem("token")
       
     }
   };

@@ -8,6 +8,7 @@ import {
   Checkbox,
   Flex,
   Heading,
+  useToast,
 } from '@chakra-ui/react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
@@ -15,12 +16,14 @@ import Axios from 'axios';
 import { EmailIcon, LockIcon } from '@chakra-ui/icons';
 import { useDispatch } from 'react-redux';
 import { setValue } from '../redux/employeeSlice';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 export const LoginPage = () => {
     const navigate = useNavigate()
+    const toast = useToast()
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
+  const token = localStorage.getItem("token")
   const handleSubmit = async (data) => {
     try {
       const response = await Axios.post(
@@ -31,8 +34,24 @@ export const LoginPage = () => {
       localStorage.setItem('token', response.data.token);
       dispatch(setValue(response.data.result));
       navigate("/")
+      toast({
+        title: "Success",
+        description: response.data.message,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Error",
+        description: error.response.data.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
     }
   };
 
@@ -48,7 +67,7 @@ export const LoginPage = () => {
       .matches(/.*[0-9].*/, 'Password must contain at least one number'),
   });
 
-  return (
+  return !token ? (
     <Formik
       initialValues={{ email: '', password: '' }}
       validationSchema={loginSchema}
@@ -130,5 +149,5 @@ export const LoginPage = () => {
         </Box>
       )}
     </Formik>
-  );
+  ):(<Navigate to="/"/>);
 };

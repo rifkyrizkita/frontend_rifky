@@ -15,7 +15,7 @@ import { useEffect } from "react";
 
 export const ChangeProfilePicture = () => {
   const [file, setFile] = useState(null);
-  const [reload, setReload] = useState(false)
+  
 
   const toast = useToast();
   const token = localStorage.getItem("token");
@@ -37,7 +37,7 @@ export const ChangeProfilePicture = () => {
         { headers }
       );
       console.log(response);
-      setReload(!reload)
+      window.location.reload()
       toast({
         title: "Profile Picture Changed",
         description: "Your profile picture has been successfully changed.",
@@ -58,9 +58,7 @@ export const ChangeProfilePicture = () => {
       });
     }
   };
-  useEffect(() => {
-    
-  }, [reload]);
+  
   return (
     <Formik
       initialValues={{

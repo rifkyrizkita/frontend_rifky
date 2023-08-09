@@ -9,6 +9,7 @@ import {
   Grid,
   GridItem,
   Checkbox,
+  useToast,
 } from "@chakra-ui/react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -17,6 +18,7 @@ import Axios from "axios";
 
 export const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const toast = useToast()
   const navigate = useNavigate();
   const { token } = useParams();
   const headers = {
@@ -51,8 +53,24 @@ export const RegisterPage = () => {
       );
       console.log(response);
       navigate("/login");
+      toast({
+        title: "Success",
+        description: response.data.message,
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Error",
+        description: error.response.data.message,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+        position: "top",
+      });
     }
   };
 

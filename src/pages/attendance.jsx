@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import Axios from "axios";
 import { Navbar } from "../components/navbar";
+import { Navigate } from "react-router-dom";
 
 export const AttendanceTable = () => {
   const [attendance, setAttendance] = useState([]);
@@ -73,7 +74,7 @@ export const AttendanceTable = () => {
     return months[monthNumber - 1];
   };
 
-  return (
+  return token ? (
     <Box>
       <Navbar />
       <Box p={4} overflowX="auto">
@@ -127,5 +128,5 @@ export const AttendanceTable = () => {
         </Table>
       </Box>
     </Box>
-  );
+  ): (<Navigate to="/login"/>);
 };

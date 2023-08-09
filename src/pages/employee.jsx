@@ -27,6 +27,8 @@ import { AddIcon, ChevronLeftIcon, ChevronRightIcon } from "@chakra-ui/icons"; /
 import Axios from "axios";
 import { AddEmployeePage } from "../components/addEmployee";
 import { Navbar } from "../components/navbar";
+import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const EmployeeList = () => {
   const [employees, setEmployees] = useState([]);
@@ -35,6 +37,8 @@ export const EmployeeList = () => {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("asc"); 
   const [page, setPage] = useState(1);
+const token = localStorage.getItem("token")
+const data = useSelector((state) => state.employee.value);
 
   const fetchEmployees = async () => {
     try {
@@ -70,7 +74,7 @@ export const EmployeeList = () => {
     setPage(newPage);
   };
 
-  return (
+  return token && data.isAdmin? (
     <Box>
       <Box>
         <Navbar />
@@ -154,5 +158,5 @@ export const EmployeeList = () => {
         </ModalContent>
       </Modal>
     </Box>
-  );
+  ):(<Navigate to="/"/>);
 };

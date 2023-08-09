@@ -4,11 +4,12 @@ import { FaQuestionCircle } from "react-icons/fa";
 import { Navbar } from "../components/navbar";
 import { TND } from "../components/timeAndDate";
 import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 export const HomePage = () => {
   const data = useSelector((state) => state.employee.value);
   const [isMobile] = useMediaQuery("(max-width: 768px)");
-
-  return (
+const token = localStorage.getItem("token")
+  return token ? (
     <Box>
       
       <Navbar />
@@ -57,5 +58,5 @@ export const HomePage = () => {
         
       </Flex>
     </Box>
-  );
+  ):(<Navigate to ="/login"/>);
 };
